@@ -39,3 +39,48 @@ The prediction target is a **binary classification label**:
 label_up_24h = 1  if price(t + 24h) > price(t)
 label_up_24h = 0  otherwise
 
+---
+
+## Feature Store Setup (Hopsworks)
+
+To ensure reproducibility, consistency between training and inference, and proper MLOps practices, this project uses the **Hopsworks Feature Store** to manage engineered features and labels.
+
+### Feature Group (FG)
+
+We create a **Feature Group** in Hopsworks to store all engineered features and labels derived from CoinGecko data.
+
+- **Name**: `crypto_fg`
+- **Primary key**: `timestamp`
+- **Event time**: `timestamp`
+- **Data**:
+  - Raw external features (price, market cap, volume)
+  - Engineered features (returns, volatility, moving averages)
+  - Lagged features
+  - Label (`label_up_24h`)
+
+The Feature Group acts as the **single source of truth** for the project, ensuring that:
+- the same feature definitions are reused across experiments
+- historical data is versioned and auditable
+- data leakage is avoided through explicit time-based design
+
+The Feature Group is initially populated using a **backfill pipeline** that loads approximately 90 days of historical hourly data.
+
+---
+
+### Feature View (FV)
+
+On top of the Feature Group, we create a **Feature View** to define the exact dataset used for model training.
+
+- **Name**: `crypto_featureview`
+- **Label**: `label_up_24h`
+- **Query**: all features from `crypto_fg`
+
+The Feature View provides a clean abstraction for:
+- training / test data retrieval
+- time-series splits
+- consistent feature-label alignment
+
+All training pipelines read data **only through the Feature View**, not directly from raw tables.
+
+---
+

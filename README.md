@@ -91,11 +91,6 @@ Instead of reloading all historical data, each scheduled run:
 4. Reads the **latest timestamp already stored** in the Feature Group
 5. Inserts **only new, non-overlapping rows** into the Feature Group
 
-This design ensures:
-- rolling and lagged features are computed correctly
-- duplicate inserts are avoided
-- the pipeline is idempotent and safe to run repeatedly
-
 ### GitHub Actions Integration
 
 The incremental pipeline is triggered via **GitHub Actions**, allowing the feature store to stay synchronized with live market data without manual intervention.

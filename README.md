@@ -75,3 +75,39 @@ The prediction target is a **binary classification label**:
 ```text
 label_up_24h = 1  if price(t + 24h) > price(t)
 label_up_24h = 0  otherwise
+
+---
+
+## Feature Store Setup (Hopsworks): Feature Group (FG) & Feature View (FV)
+
+We use **Hopsworks Feature Store** to manage the full lifecycle of features and labels.
+
+### Feature Group (FG)
+
+The backfill script creates (or retrieves) a Feature Group to store engineered BTC features:
+
+- **Name**: `crypto_fg`
+- **Version**: `v1`
+- **Primary key**: `timestamp`
+- **Event time**: `timestamp`
+- **Online enabled**: `False` (offline-only for this project)
+
+The Feature Group contains:
+- raw CoinGecko fields (`price`, `market_cap`, `total_volume`)
+- engineered features (returns, volatility, MAs, lagged features)
+- label (`label_up_24h`)
+
+**Created in**: `crypto_backfill.py`  
+Main logic: fetch 90 days → build features + label → write to FG.
+
+```python
+fg = fs.get_or_create_feature_group(
+    name="crypto_fg",
+    version=1,
+    primary_key=["timestamp"],
+    event_time="timestamp",
+    description="BTC hourly engineered features + lagged features with label_up_24h.",
+    online_enabled=False,
+)
+fg.insert(df)
+

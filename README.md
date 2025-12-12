@@ -161,8 +161,6 @@ The model is evaluated using:
 | **Macro Avg** | 0.56 | 0.52 | 0.45 | 427 |
 | **Weighted Avg** | 0.56 | 0.54 | 0.46 | 427 |
 
-### One-Sentence Performance Commentary
-
 The model demonstrates **moderate predictive skill above random chance (ROC-AUC ≈ 0.59)**, with a strong bias toward predicting downward movements, indicating room for improvement in capturing upward price dynamics.
 
 

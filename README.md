@@ -138,6 +138,34 @@ The model is evaluated using:
 
 ---
 
+## Model Performance Summary
+
+### Train / Test Split
+| Split | Time Range | Samples |
+|------|-----------|---------|
+| Train | 2025-09-14 09:02:53 → 2025-11-24 12:01:52 | 1708 |
+| Test  | 2025-11-24 13:00:55 → 2025-12-12 07:12:28 | 427 |
+
+### Overall Metrics
+| Metric | Value |
+|------|-------|
+| Accuracy | 0.5363 |
+| ROC-AUC  | 0.5924 |
+
+### Classification Report (Test Set)
+| Class | Precision | Recall | F1-score | Support |
+|------|-----------|--------|----------|---------|
+| 0 (Down) | 0.53 | 0.90 | 0.67 | 220 |
+| 1 (Up)   | 0.59 | 0.14 | 0.23 | 207 |
+| **Accuracy** |  |  | **0.54** | **427** |
+| **Macro Avg** | 0.56 | 0.52 | 0.45 | 427 |
+| **Weighted Avg** | 0.56 | 0.54 | 0.46 | 427 |
+
+### One-Sentence Performance Commentary
+
+The model demonstrates **moderate predictive skill above random chance (ROC-AUC ≈ 0.59)**, with a strong bias toward predicting downward movements, indicating room for improvement in capturing upward price dynamics.
+
+
 ## Model Artifacts and Visualization
 
 After training, the pipeline automatically:

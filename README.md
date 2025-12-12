@@ -1,6 +1,3 @@
-# ID2223_proj_-crypto
-This repo is for proj in ID2223 scalable ML KTH
-
 # Crypto Price Direction Prediction (BTC)
 
 This project builds an end-to-end **machine learning pipeline** for predicting the **24-hour price direction of Bitcoin (BTC)** using **dynamic external market data**.  

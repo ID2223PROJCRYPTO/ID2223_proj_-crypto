@@ -58,11 +58,6 @@ We create a **Feature Group** in Hopsworks to store all engineered features and 
   - Lagged features
   - Label (`label_up_24h`)
 
-The Feature Group acts as the **single source of truth** for the project, ensuring that:
-- the same feature definitions are reused across experiments
-- historical data is versioned and auditable
-- data leakage is avoided through explicit time-based design
-
 The Feature Group is initially populated using a **backfill pipeline** that loads approximately 90 days of historical hourly data.
 
 ---

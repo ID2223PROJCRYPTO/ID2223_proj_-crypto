@@ -69,7 +69,8 @@ def build_feature_dataframe(df_raw: pd.DataFrame) -> pd.DataFrame:
 
     df["hour_of_day"] = df["timestamp"].dt.hour
     df["day_of_week"] = df["timestamp"].dt.weekday
-    df["is_weekend"] = (df["day_of_week"] >= 5).astype(int)
+    # df["is_weekend"] = (df["day_of_week"] >= 5).astype(int)
+    df["is_weekend"] = (df["day_of_week"] >= 5).astype("int32")
 
     df["ret_1h"] = df["price"].pct_change(1)
     df["ret_6h"] = df["price"].pct_change(6)
@@ -110,7 +111,8 @@ def build_feature_dataframe(df_raw: pd.DataFrame) -> pd.DataFrame:
 
     # label (24h horizon)
     df["future_price_24h"] = df["price"].shift(-24)
-    df["label_up_24h"] = (df["future_price_24h"] > df["price"]).astype(int)
+    # df["label_up_24h"] = (df["future_price_24h"] > df["price"]).astype(int)
+    df["label_up_24h"] = (df["future_price_24h"] > df["price"]).astype("int32")
     df = df.drop(columns=["future_price_24h"])
 
     df = df.replace([np.inf, -np.inf], np.nan).dropna().reset_index(drop=True)
@@ -177,7 +179,14 @@ def write_to_crypto_fg(df_features: pd.DataFrame):
     if df.empty:
         print(" No new rows to insert (everything overlaps).")
         return
+    
+    # ✅ 对齐 Hopsworks schema: int32
+    for c in ["is_weekend", "label_up_24h"]:
+        if c in df.columns:
+            df[c] = df[c].astype("int32")
 
+    
+    
     print(f" Inserting {len(df)} NEW matured rows into Feature Group 'crypto_fg' v1 ...")
     fg.insert(df)
     print(" Insert done.")

@@ -131,8 +131,6 @@ The model is evaluated using:
 - **Accuracy**
 - **ROC-AUC**
 - **Classification report**
-- **Confusion matrix**
-- **Predicted probability vs. actual label plots**
 
 ---
 

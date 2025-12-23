@@ -188,7 +188,6 @@ The trained model is registered in the **Hopsworks Model Registry** to enable **
 - **Metrics**:
   - accuracy
   - ROC-AUC
-- **Input example**: first row of the training dataset
 
 The full model directory (including weights and metadata) is uploaded to the registry.
 

@@ -158,6 +158,18 @@ The model is evaluated using:
 | **Weighted Avg** | 0.56 | 0.54 | 0.46 | 427 |
 
 The model demonstrates **moderate predictive skill above random chance (ROC-AUC ≈ 0.59)**, with a strong bias toward predicting downward movements, indicating room for improvement in capturing upward price dynamics.
+**_We acknowledge that the predictive performance of our model is modest (ROC-AUC ≈ 0.59) and does not reach state-of-the-art levels._**  
+  
+**_This is expected, as the project intentionally prioritizes MLOps pipeline design over model-centric optimization._**  
+ 
+**_Given the highly noisy nature of short-term cryptocurrency price movements, performance slightly above random chance is sufficient to validate the end-to-end system._**
+
+
+
+
+
+
+
 
 
 ## Model Artifacts and Visualization

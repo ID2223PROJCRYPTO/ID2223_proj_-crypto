@@ -162,20 +162,16 @@ The model demonstrates **moderate predictive skill above random chance (ROC-AUC 
 _We acknowledge that the predictive performance of our model is modest and does not reach state-of-the-art levels partially due to the highly noisy nature of short-term cryptocurrency price movements. In this project, we focus more on MLOps pipeline design over model-centric optimization. So we therefore consider the model performance to be acceptable within the scope of this project._
   
 
-## Model Artifacts and Visualization
+## Model Artifacts
 
 After training, the pipeline automatically:
 
 - saves the trained XGBoost model as `model.json`
-- generates diagnostic plots:
-  - predicted probability vs. actual labels
-  - confusion matrix
-  - feature importance (gain-based)
 
 All artifacts are stored locally in dedicated directories:
 
 - `crypto_model/`
-- `images_crypto/`
+
 
 ---
 

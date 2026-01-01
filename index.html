@@ -3,17 +3,147 @@
   <head>
     <meta charset="UTF-8" />
     <title>Crypto Price Direction Prediction</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Arial, sans-serif;
+        max-width: 900px;
+        margin: 40px auto;
+        line-height: 1.6;
+        color: #222;
+      }
+      h1,
+      h2 {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 6px;
+      }
+      img {
+        display: block;
+        margin: 20px auto;
+        max-width: 100%;
+      }
+      .caption {
+        text-align: center;
+        font-size: 0.9em;
+        color: #555;
+        margin-top: -10px;
+      }
+      .box {
+        background: #f7f7f7;
+        padding: 15px 20px;
+        border-left: 4px solid #4a90e2;
+        margin: 20px 0;
+      }
+    </style>
   </head>
   <body>
-    <h1>Classification Results</h1>
+    <h1>Crypto Price Direction Prediction</h1>
 
-    <h2>Confusion Matrix</h2>
-    <img src="pyfiles/images_crypto/confusion_matrix.png" width="500" />
+    <p>
+      This project focuses on predicting the
+      <strong>24-hour price direction of Bitcoin (BTC)</strong> using machine
+      learning models trained on historical price data and engineered market
+      features. The goal is not exact price forecasting, but
+      <em>binary classification</em>: whether the price will go
+      <strong>up</strong> or <strong>down</strong> on the next day.
+    </p>
 
-    <h2>Feature Importance</h2>
-    <img src="pyfiles/images_crypto/feature_importance.png" width="500" />
+    <div class="box">
+      <strong>Task type:</strong> Binary classification<br />
+      <strong>Target:</strong> BTC price direction (t + 24h)<br />
+      <strong>Features:</strong> Price-based indicators & engineered features
+    </div>
 
-    <h2>Prediction vs Actual</h2>
-    <img src="pyfiles/images_crypto/pred_vs_actual.png" width="500" />
+    ---
+
+    <h2>Method Overview</h2>
+
+    <p>
+      The pipeline consists of data ingestion, feature engineering, model
+      training, and evaluation. Raw market data is transformed into supervised
+      learning samples using a time-aware labeling strategy to avoid data
+      leakage.
+    </p>
+
+    <ul>
+      <li>Historical BTC market data collection</li>
+      <li>Feature engineering (returns, trends, lag features)</li>
+      <li>Supervised learning model training</li>
+      <li>Evaluation using classification metrics</li>
+    </ul>
+
+    ---
+
+    <h2>Experimental Results</h2>
+
+    <h3>Confusion Matrix</h3>
+    <img
+      src="pyfiles/images_crypto/confusion_matrix.png"
+      alt="Confusion Matrix"
+    />
+    <div class="caption">
+      Figure 1: Confusion matrix showing the distribution of correct and
+      incorrect predictions.
+    </div>
+
+    <p>
+      The confusion matrix illustrates the model's ability to distinguish upward
+      and downward price movements. While false positives and false negatives
+      remain, the diagonal dominance indicates meaningful predictive signal.
+    </p>
+
+    <h3>Feature Importance</h3>
+    <img
+      src="pyfiles/images_crypto/feature_importance.png"
+      alt="Feature Importance"
+    />
+    <div class="caption">
+      Figure 2: Relative importance of input features used by the model.
+    </div>
+
+    <p>
+      Feature importance analysis suggests that recent price movements and
+      short-term trend indicators contribute most significantly to the
+      prediction outcome.
+    </p>
+
+    <h3>Prediction vs Actual</h3>
+    <img
+      src="pyfiles/images_crypto/pred_vs_actual.png"
+      alt="Prediction vs Actual"
+    />
+    <div class="caption">
+      Figure 3: Comparison between predicted and actual price directions over
+      time.
+    </div>
+
+    <p>
+      This visualization compares predicted signals with ground truth labels,
+      highlighting periods where the model captures market trends as well as
+      intervals of increased volatility where performance degrades.
+    </p>
+
+    ---
+
+    <h2>Conclusion</h2>
+
+    <p>
+      This project demonstrates how machine learning techniques can be applied
+      to financial time-series classification problems. Although market
+      prediction remains inherently uncertain, the results indicate that
+      engineered features combined with supervised learning models can extract
+      non-trivial predictive patterns.
+    </p>
+
+    <p>
+      Future improvements may include incorporating additional external signals,
+      model ensembling, and more advanced temporal architectures.
+    </p>
+
+    <hr />
+
+    <p style="font-size: 0.9em; color: #666">
+      Course project &middot; ID2223 &middot; GitHub Pages
+    </p>
   </body>
 </html>

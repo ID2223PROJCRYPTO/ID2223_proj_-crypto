@@ -347,14 +347,12 @@ def evaluate_and_save(model: XGBClassifier, df_eval: pd.DataFrame, target_date_s
 
     save_inference_images(
         images_dir=images_dir,
-        target_date_str=target_date_str,
         y_true=y_true,
         y_pred=y_pred,
         y_proba=y_proba,
         hours=hours,
         acc=acc,
         auc=auc,
-        cm=cm,
     )
 
     print(f"Saved images to: {images_dir}")

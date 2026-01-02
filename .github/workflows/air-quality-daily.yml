@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # 每天 00:00 UTC 跑一次
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 jobs:
   schedule_crypto_pipeline:
@@ -21,8 +21,8 @@ jobs:
       - name: setup python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: "3.10"
+          cache: "pip"
 
       - name: install python packages
         run: |
@@ -35,4 +35,4 @@ jobs:
         run: |
           cd pyfiles
           python crypto_feature_pipeline.py
-
+          python crypto_inference.py

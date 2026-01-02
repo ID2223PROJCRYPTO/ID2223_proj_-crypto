@@ -1,0 +1,19 @@
+{
+  "model_name": "crypto_xgboost_direction_model",
+  "model_version": 7,
+  "utc_date": "2026-01-01",
+  "rows": 1,
+  "accuracy": 0.0,
+  "roc_auc": null,
+  "confusion_matrix": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      0
+    ]
+  ],
+  "generated_at_utc": "2026-01-02T16:03:10.314967+00:00"
+}

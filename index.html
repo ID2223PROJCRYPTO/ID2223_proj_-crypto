@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Experimental Results</title>
+    <title>Daily Inference Results</title>
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -13,8 +13,7 @@
         color: #222;
       }
       h1,
-      h2,
-      h3 {
+      h2 {
         border-bottom: 1px solid #ddd;
         padding-bottom: 6px;
       }
@@ -36,66 +35,49 @@
       }
     </style>
   </head>
+
   <body>
-    <h1>Experimental Results</h1>
+    <h1>Daily Inference Results (UTC)</h1>
 
     <p class="note">
-      This section presents the quantitative and qualitative results of the
-      binary classification model for predicting the 24-hour price direction of
-      Bitcoin.
+      This page shows the most recent daily inference results of the Bitcoin
+      24-hour price direction classifier. The figures are automatically updated
+      after each scheduled inference run.
     </p>
 
     <h2>Confusion Matrix</h2>
 
     <img
-      src="pyfiles/images_crypto/confusion_matrix.png"
+      src="daily_inference_reports/images/confusion_matrix.png"
       alt="Confusion Matrix"
     />
     <div class="caption">
-      Figure 1: Confusion matrix of the BTC price direction classifier.
+      Figure 1: Confusion matrix of daily BTC price direction prediction.
     </div>
 
     <p>
-      The confusion matrix shows a clear dominance along the diagonal,
-      indicating that the model captures non-random predictive signals.
-      Misclassifications mainly occur during periods of high market volatility.
+      The confusion matrix summarizes the classification performance for the
+      most recent evaluation day, highlighting the balance between correct
+      upward and downward predictions.
     </p>
 
-    ---
+    <hr />
 
-    <h2>Feature Importance</h2>
+    <h2>Hourly Prediction vs Ground Truth</h2>
 
     <img
-      src="pyfiles/images_crypto/feature_importance.png"
-      alt="Feature Importance"
+      src="daily_inference_reports/images/prob_vs_truth.png"
+      alt="Prediction vs Truth"
     />
     <div class="caption">
-      Figure 2: Feature importance ranking of the trained classification model.
+      Figure 2: Predicted probability of upward movement versus true labels on
+      an hourly basis (UTC).
     </div>
 
     <p>
-      The model relies primarily on short-term price dynamics and trend-related
-      features, suggesting that recent market behavior plays a significant role
-      in directional prediction.
-    </p>
-
-    ---
-
-    <h2>Prediction vs Actual</h2>
-
-    <img
-      src="pyfiles/images_crypto/pred_vs_actual.png"
-      alt="Prediction vs Actual"
-    />
-    <div class="caption">
-      Figure 3: Comparison between predicted and actual price direction over
-      time.
-    </div>
-
-    <p>
-      The temporal comparison highlights that the model performs best during
-      stable market regimes, while prediction accuracy degrades during abrupt
-      trend reversals.
+      This figure compares the predicted probability of an upward price movement
+      with the realized outcome for each hourly time slot, illustrating temporal
+      variation in model confidence.
     </p>
   </body>
 </html>

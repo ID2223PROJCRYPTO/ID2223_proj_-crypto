@@ -46,7 +46,6 @@
     </p>
 
     <h2>Confusion Matrix</h2>
-
     <img
       src="daily_inference_reports/images/confusion_matrix.png"
       alt="Confusion Matrix"
@@ -54,7 +53,6 @@
     <div class="caption">
       Figure 1: Confusion matrix of daily BTC price direction prediction.
     </div>
-
     <p>
       The confusion matrix summarizes the classification performance for the
       most recent evaluation day, highlighting the balance between correct
@@ -64,7 +62,6 @@
     <hr />
 
     <h2>Hourly Prediction vs Ground Truth</h2>
-
     <img
       src="daily_inference_reports/images/prob_vs_truth.png"
       alt="Prediction vs Truth"
@@ -73,11 +70,27 @@
       Figure 2: Predicted probability of upward movement versus true labels on
       an hourly basis (UTC).
     </div>
-
     <p>
       This figure compares the predicted probability of an upward price movement
       with the realized outcome for each hourly time slot, illustrating temporal
       variation in model confidence.
+    </p>
+
+    <hr />
+
+    <h2>Hourly True vs Predicted Labels</h2>
+    <img
+      src="daily_inference_reports/images/labels_vs_prediction.png"
+      alt="True vs Predicted Labels"
+    />
+    <div class="caption">
+      Figure 3: Comparison of true labels vs predicted labels (0=Down, 1=Up) on
+      an hourly basis.
+    </div>
+    <p>
+      This figure shows the predicted labels alongside the actual labels for
+      each hour, providing a direct comparison of model classification results
+      for the evaluated day.
     </p>
   </body>
 </html>

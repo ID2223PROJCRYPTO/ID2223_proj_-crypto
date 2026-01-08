@@ -195,7 +195,7 @@ The trained model is registered in the **Hopsworks Model Registry** to enable **
 
 The full model directory (including weights and metadata) is uploaded to the registry.
 
-## Inference Pipeline for BTC Price Prediction
+## Inference Pipeline
 
 The **inference pipeline** allows for continuous, real-time prediction of Bitcoin's price direction using the pre-trained **XGBoost model**. This pipeline fetches the most recent feature data from the **Hopsworks Feature Store**, applies the model to make hourly predictions, and visualizes the results for comprehensive analysis.
 

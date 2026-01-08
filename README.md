@@ -10,12 +10,14 @@ It demonstrates data ingestion, feature engineering, time-aware labeling, increm
 This project uses **dynamic external data** from a public API as the primary data source.
 
 ### External Data Provider
+
 - **CoinGecko API**
 - Endpoint: `/coins/bitcoin/market_chart`
 - Granularity: **hourly**
 - Currency: USD
 
 ### Raw Features
+
 The following raw features are fetched from CoinGecko:
 
 - `price`
@@ -29,7 +31,7 @@ These are considered **external features** because they originate from an extern
 
 ## Feature Engineering
 
-From the raw CoinGecko signals, we construct a rich feature set capturing temporal patterns, momentum, volatility, and market dynamics. The features includes: Time-Based Features (`hour_of_day`, `day_of_week`, `is_weekend`), Returns & Momentum(`ret_1h`, `ret_6h`, `ret_12h`, `ret_24h`), Rolling Volatility(`volatility_6h`,`volatility_24h`),  Moving Averages(`ma_6h`,`ma_12h`,`ma_24h`,`ma_diff_6_24`), External Market Dynamics(`volume_change_6h`,`volume_change_24h`,`mcap_change_24h`), Lagged Features to capture short-term temporal dependencies(`ret_1h_lag1`, `ret_1h_lag3`, `ret_1h_lag6`, `volume_change_1h_lag1`, `volume_change_1h_lag3`, `volume_change_1h_lag6`, `volatility_6h_lag1`, `volatility_6h_lag3`, `ma_diff_6_24_lag1`, `ma_diff_6_24_lag3`)
+From the raw CoinGecko signals, we construct a rich feature set capturing temporal patterns, momentum, volatility, and market dynamics. The features includes: Time-Based Features (`hour_of_day`, `day_of_week`, `is_weekend`), Returns & Momentum(`ret_1h`, `ret_6h`, `ret_12h`, `ret_24h`), Rolling Volatility(`volatility_6h`,`volatility_24h`), Moving Averages(`ma_6h`,`ma_12h`,`ma_24h`,`ma_diff_6_24`), External Market Dynamics(`volume_change_6h`,`volume_change_24h`,`mcap_change_24h`), Lagged Features to capture short-term temporal dependencies(`ret_1h_lag1`, `ret_1h_lag3`, `ret_1h_lag6`, `volume_change_1h_lag1`, `volume_change_1h_lag3`, `volume_change_1h_lag6`, `volatility_6h_lag1`, `volatility_6h_lag3`, `ma_diff_6_24_lag1`, `ma_diff_6_24_lag3`)
 
 ## Label Definition (24h Horizon)
 
@@ -39,6 +41,7 @@ The prediction target is a **binary classification label**:
 label_up_24h = 1  if price(t + 24h) > price(t)
 label_up_24h = 0  otherwise
 ```
+
 ---
 
 ## Feature Store Setup (Hopsworks)
@@ -69,6 +72,7 @@ On top of the Feature Group, we create a **Feature View** to define the exact da
 - **Query**: all features from `crypto_fg`
 
 The Feature View provides a clean abstraction for:
+
 - training / test data retrieval
 - time-series splits
 - consistent feature-label alignment
@@ -105,7 +109,6 @@ Sensitive credentials (e.g., Hopsworks API key) are stored securely using **GitH
 
 Model training data is loaded **exclusively from the Hopsworks Feature View** (`crypto_featureview`), ensuring consistency between feature engineering and model training.
 
-
 To prevent **temporal leakage**, we perform a **manual time-series split** instead of using a random split:
 
 1. All feature and label data are retrieved from the Feature View
@@ -137,30 +140,32 @@ The model is evaluated using:
 ## Model Performance Summary
 
 ### Train / Test Split
-| Split | Time Range | Samples |
-|------|-----------|---------|
-| Train | 2025-09-14 09:02:53 → 2025-11-24 12:01:52 | 1708 |
-| Test  | 2025-11-24 13:00:55 → 2025-12-12 07:12:28 | 427 |
+
+| Split | Time Range                                | Samples |
+| ----- | ----------------------------------------- | ------- |
+| Train | 2025-09-14 09:02:53 → 2025-11-24 12:01:52 | 1708    |
+| Test  | 2025-11-24 13:00:55 → 2025-12-12 07:12:28 | 427     |
 
 ### Overall Metrics
-| Metric | Value |
-|------|-------|
+
+| Metric   | Value  |
+| -------- | ------ |
 | Accuracy | 0.5363 |
 | ROC-AUC  | 0.5924 |
 
 ### Classification Report (Test Set)
-| Class | Precision | Recall | F1-score | Support |
-|------|-----------|--------|----------|---------|
-| 0 (Down) | 0.53 | 0.90 | 0.67 | 220 |
-| 1 (Up)   | 0.59 | 0.14 | 0.23 | 207 |
-| **Accuracy** |  |  | **0.54** | **427** |
-| **Macro Avg** | 0.56 | 0.52 | 0.45 | 427 |
-| **Weighted Avg** | 0.56 | 0.54 | 0.46 | 427 |
+
+| Class            | Precision | Recall | F1-score | Support |
+| ---------------- | --------- | ------ | -------- | ------- |
+| 0 (Down)         | 0.53      | 0.90   | 0.67     | 220     |
+| 1 (Up)           | 0.59      | 0.14   | 0.23     | 207     |
+| **Accuracy**     |           |        | **0.54** | **427** |
+| **Macro Avg**    | 0.56      | 0.52   | 0.45     | 427     |
+| **Weighted Avg** | 0.56      | 0.54   | 0.46     | 427     |
 
 The model demonstrates **moderate predictive skill above random chance (ROC-AUC ≈ 0.59)**, with a strong bias toward predicting downward movements, indicating room for improvement in capturing upward price dynamics.
 
 _We acknowledge that the predictive performance of our model is modest and does not reach state-of-the-art levels partially due to the highly noisy nature of short-term cryptocurrency price movements. In this project, we focus more on MLOps pipeline design over model-centric optimization. So we therefore consider the model performance to be acceptable within the scope of this project._
-  
 
 ## Model Artifacts
 
@@ -171,7 +176,6 @@ After training, the pipeline automatically:
 All artifacts are stored locally in dedicated directories:
 
 - `crypto_model/`
-
 
 ---
 
@@ -191,6 +195,39 @@ The trained model is registered in the **Hopsworks Model Registry** to enable **
 
 The full model directory (including weights and metadata) is uploaded to the registry.
 
+## Inference Pipeline for BTC Price Prediction
 
+The **inference pipeline** allows for continuous, real-time prediction of Bitcoin's price direction using the pre-trained **XGBoost model**. This pipeline fetches the most recent feature data from the **Hopsworks Feature Store**, applies the model to make hourly predictions, and visualizes the results for comprehensive analysis.
 
+### Pipeline Workflow
 
+1. **Feature Retrieval**:
+   The most recent BTC market data is retrieved from the **Hopsworks Feature Store**. This includes the most up-to-date features such as price, market cap, volatility, returns, and other engineered features. The data is aligned by timestamp, and features are sanitized to match the model's expected format.
+
+2. **Model Inference**:
+   The registered **XGBoost model** (`crypto_xgboost_direction_model`) is loaded from the **Model Registry** in **Hopsworks**. The inference process involves using the **predict_proba()** method to generate probabilities for price movements over the next 24 hours, classifying whether Bitcoin’s price will go up or down. The probability is then converted into a binary label, where:
+
+   - `1`: Price will go up.
+   - `0`: Price will go down.
+
+3. **Results Saving and Visualization**:
+   The results of the inference, including predicted probabilities and labels, are saved in a daily report. This includes the following visualizations:
+
+   - **Confusion Matrix**: Displays the model’s performance in terms of true positives, true negatives, false positives, and false negatives.
+   - **Hourly Prediction vs. Ground Truth**: Compares predicted probabilities and the actual price direction (up/down) for each hour.
+   - **Hourly True vs. Predicted Labels**: A horizontal table of true vs. predicted labels for each hour.
+
+   Example of the **Hourly Prediction vs. Ground Truth** chart (`prob_vs_truth.png`):
+
+   ![Hourly Prediction vs Ground Truth](daily_inference_reports/images/prob_vs_truth.png)
+
+   This plot shows:
+
+   - **True Labels** (`y_true`), which are marked in red, indicating whether the price actually went up or down.
+   - **Predicted Probabilities** (`y_proba`), marked in blue, showing the model’s predicted probability of the price going up.
+
+## GitHub Page
+
+The results are hosted on the **GitHub Page**.
+
+[Visit GitHub Page](https://id2223projcrypto.github.io/ID2223_proj_-crypto/)
